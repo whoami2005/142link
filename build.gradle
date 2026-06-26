@@ -5,14 +5,14 @@ plugins {
 }
 
 group = "com.github.whoami2005"
-version = "1.0.0"
+version = "1.0.6"
 
 lavalinkPlugin {
-    name = "amazonmusic-plugin"
+    name = "sofialink-plugin"
     apiVersion = "4.0.0"
     serverVersion = "4.0.0"
     configurePublishing = false
-    path = "com.whoami2005.amzplugin.plugin"
+    path = "com.krishna.amzplugin.plugin"
 }
 
 repositories {
