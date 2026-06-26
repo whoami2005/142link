@@ -4,7 +4,7 @@ plugins {
     id "dev.arbjerg.lavalink.gradle-plugin" version "1.0.15"
 }
 
-group = "com.github.Ankush26030"
+group = "com.github.krishna26030"
 version = "1.0.0"
 
 lavalinkPlugin {
@@ -12,7 +12,7 @@ lavalinkPlugin {
     apiVersion = "4.0.0"
     serverVersion = "4.0.0"
     configurePublishing = false
-    path = "com.ankush.amzplugin.plugin"
+    path = "com.krishna.amzplugin.plugin"
 }
 
 repositories {

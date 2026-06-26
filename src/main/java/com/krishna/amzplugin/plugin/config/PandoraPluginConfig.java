@@ -1,0 +1,28 @@
+package com.krishna.amzplugin.plugin.config;
+
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
+
+@ConfigurationProperties(prefix = "plugins.pandora")
+@Component("pandoraPluginConfig")
+public class PandoraPluginConfig {
+	private boolean enabled = false;
+	private String[] providers = { "ytsearch:\"%ISRC%\"", "ytsearch:%QUERY%" };
+	private String tokenApiUrl = "https://get.1lucas1apk.fun/pandora/gettoken";
+	private String csrfToken = "";
+	private boolean preferTokenApi = true;
+	private int searchLimit = 6;
+
+	public boolean isEnabled() { return enabled; }
+	public void setEnabled(boolean enabled) { this.enabled = enabled; }
+	public String[] getProviders() { return providers; }
+	public void setProviders(String[] providers) { this.providers = providers; }
+	public String getTokenApiUrl() { return tokenApiUrl; }
+	public void setTokenApiUrl(String tokenApiUrl) { this.tokenApiUrl = tokenApiUrl; }
+	public String getCsrfToken() { return csrfToken; }
+	public void setCsrfToken(String csrfToken) { this.csrfToken = csrfToken; }
+	public boolean isPreferTokenApi() { return preferTokenApi; }
+	public void setPreferTokenApi(boolean preferTokenApi) { this.preferTokenApi = preferTokenApi; }
+	public int getSearchLimit() { return searchLimit; }
+	public void setSearchLimit(int searchLimit) { this.searchLimit = searchLimit; }
+}
