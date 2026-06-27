@@ -12,7 +12,7 @@ public class AmzPluginConfig {
 
 	private String apiBaseUrl = "https://amazonmusicapi.vercel.app";
 
-	public String getProviders() { return providers; }
+	public String[] getProviders() { return providers; }
 	public void setProviders(String[] providers) { this.providers = providers; }
 	public boolean isEnabled() { return enabled; }
 	public void setEnabled(boolean enabled) { this.enabled = enabled; }
