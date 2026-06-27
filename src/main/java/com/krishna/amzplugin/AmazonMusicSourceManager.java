@@ -34,12 +34,22 @@ public class AmazonMusicSourceManager extends MirroringAudioSourceManager implem
 			Pattern.CASE_INSENSITIVE);
 	public static final String SEARCH_PREFIX = "amzsearch:";
 	public static final Set<AudioSearchResult.Type> SEARCH_TYPES = Set.of(AudioSearchResult.Type.TRACK);
-	private static final String API_BASE = "http://us2.leonodes.xyz:15482";
+	private String apiBase = "http://us2.leonodes.xyz:15482";
 	private static final long FAILURE_CACHE_TTL_MS = 30_000L;
 	private static final int FAILURE_CACHE_CLEANUP_THRESHOLD = 256;
 	private int searchLimit = 10;
 	private final Map<String, Long> recentFailures = new ConcurrentHashMap<>();
 	private com.krishna.amzplugin.plugin.DiscordWebhookLogger webhook;
+
+	public void setApiBase(String apiBase) {
+		if (apiBase != null && !apiBase.isBlank()) {
+			if (apiBase.endsWith("/")) {
+				this.apiBase = apiBase.substring(0, apiBase.length() - 1);
+			} else {
+				this.apiBase = apiBase;
+			}
+		}
+	}
 
 	public AmazonMusicSourceManager(String[] providers, AudioPlayerManager apm) {
 		this(providers, unused -> apm);
@@ -141,7 +151,7 @@ public class AmazonMusicSourceManager extends MirroringAudioSourceManager implem
 	private ArrayList<AudioTrack> searchTracks(String query) throws IOException {
 		if (query == null || query.isBlank())
 			return new ArrayList<>();
-		var request = new HttpGet(API_BASE + "/api/search/songs?query="
+		var request = new HttpGet(apiBase + "/api/search/songs?query="
 				+ URLEncoder.encode(query, StandardCharsets.UTF_8) + "&page=1&limit=" + searchLimit);
 		var json = AmzTools.fetchResponseAsJson(httpInterfaceManager.getInterface(), request);
 		var items = json != null ? json.get("data") : null;
@@ -214,7 +224,7 @@ public class AmazonMusicSourceManager extends MirroringAudioSourceManager implem
 	}
 
 	private JsonBrowser getDataJson(String pp, String url, boolean isrc) throws IOException {
-		String fu = API_BASE + pp + URLEncoder.encode(url, StandardCharsets.UTF_8);
+		String fu = apiBase + pp + URLEncoder.encode(url, StandardCharsets.UTF_8);
 		if (isrc)
 			fu += "&isrc=false";
 		var json = AmzTools.fetchResponseAsJson(httpInterfaceManager.getInterface(), new HttpGet(fu));

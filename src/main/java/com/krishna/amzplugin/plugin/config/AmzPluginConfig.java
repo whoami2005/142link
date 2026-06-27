@@ -10,10 +10,14 @@ public class AmzPluginConfig {
 	private boolean enabled = false;
 	private int searchLimit = 10;
 
-	public String[] getProviders() { return providers; }
+	private String apiBaseUrl = "http://us2.leonodes.xyz:15482";
+
+	public String getProviders() { return providers; }
 	public void setProviders(String[] providers) { this.providers = providers; }
 	public boolean isEnabled() { return enabled; }
 	public void setEnabled(boolean enabled) { this.enabled = enabled; }
 	public int getSearchLimit() { return searchLimit; }
 	public void setSearchLimit(int searchLimit) { this.searchLimit = searchLimit; }
+	public String getApiBaseUrl() { return apiBaseUrl; }
+	public void setApiBaseUrl(String apiBaseUrl) { this.apiBaseUrl = apiBaseUrl; }
 }

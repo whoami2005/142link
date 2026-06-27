@@ -66,6 +66,7 @@ public class AmzPlugin implements AudioPlayerManagerConfiguration, SearchManager
 
 		if (config.isEnabled()) {
 			this.amazonMusic = new AmazonMusicSourceManager(config.getProviders(), unused -> manager);
+			this.amazonMusic.setApiBase(config.getApiBaseUrl());
 			int sl = Math.max(0, Math.min(10, config.getSearchLimit()));
 			this.amazonMusic.setSearchLimit(sl);
 			if (webhook != null)
