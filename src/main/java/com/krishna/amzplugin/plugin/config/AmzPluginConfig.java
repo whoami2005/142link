@@ -10,7 +10,7 @@ public class AmzPluginConfig {
 	private boolean enabled = false;
 	private int searchLimit = 10;
 
-	private String apiBaseUrl = "http://us2.leonodes.xyz:15482";
+	private String apiBaseUrl = "https://amazonmusicapi.vercel.app";
 
 	public String getProviders() { return providers; }
 	public void setProviders(String[] providers) { this.providers = providers; }
