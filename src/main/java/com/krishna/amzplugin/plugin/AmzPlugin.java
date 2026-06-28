@@ -3,8 +3,10 @@ package com.krishna.amzplugin.plugin;
 import com.krishna.amzplugin.AmazonMusicSourceManager;
 import com.krishna.amzplugin.ig.IGSourceManager;
 import com.krishna.amzplugin.pd.PandoraProvider;
+import com.krishna.amzplugin.ph.PHSourceManager;
 import com.krishna.amzplugin.plugin.config.AmzPluginConfig;
 import com.krishna.amzplugin.plugin.config.InstagramPluginConfig;
+import com.krishna.amzplugin.plugin.config.PornhubPluginConfig;
 import com.krishna.amzplugin.plugin.config.SofiaLinkConfig;
 import com.krishna.amzplugin.plugin.config.PandoraPluginConfig;
 import com.github.topi314.lavasearch.SearchManager;
@@ -29,19 +31,22 @@ public class AmzPlugin implements AudioPlayerManagerConfiguration, SearchManager
 	private AmazonMusicSourceManager amazonMusic;
 	private IGSourceManager igSource;
 	private PandoraProvider pandoraSource;
+	private PHSourceManager phSource;
 	private DiscordWebhookLogger webhook;
 	private SofiaLinkAudioEventListener audioEventListener;
 	private final AmzPluginConfig config;
 	private final InstagramPluginConfig igConfig;
 	private final PandoraPluginConfig pdConfig;
+	private final PornhubPluginConfig phConfig;
 	private final SofiaLinkConfig nlConfig;
 
 	public AmzPlugin(AmzPluginConfig config, InstagramPluginConfig igConfig, PandoraPluginConfig pdConfig,
-			SofiaLinkConfig nlConfig) {
+			PornhubPluginConfig phConfig, SofiaLinkConfig nlConfig) {
 		log.info("Loading SofiaLink Plugin v{}...", VERSION);
 		this.config = config;
 		this.igConfig = igConfig;
 		this.pdConfig = pdConfig;
+		this.phConfig = phConfig;
 		this.nlConfig = nlConfig;
 
 		// ── Webhook Logger Setup ──────────────────────────────────────
@@ -101,6 +106,15 @@ public class AmzPlugin implements AudioPlayerManagerConfiguration, SearchManager
 			sourceStatus.put("Pandora", false);
 		}
 
+		if (phConfig.isEnabled()) {
+			this.phSource = new PHSourceManager();
+			log.info("PornHub source enabled");
+			sourceStatus.put("PornHub", true);
+		} else {
+			log.info("PornHub source is disabled");
+			sourceStatus.put("PornHub", false);
+		}
+
 		// ── Webhook: Log Startup ──────────────────────────────────────
 		if (webhook != null) {
 			webhook.logStartup(
@@ -145,6 +159,11 @@ public class AmzPlugin implements AudioPlayerManagerConfiguration, SearchManager
 			manager.registerSourceManager(pandoraSource);
 			registeredDetails.put("Pandora", "✅ Registered\n📊 Limit: `" + pdConfig.getSearchLimit()
 					+ "`\n🔑 Token API: " + (pdConfig.isPreferTokenApi() ? "Yes" : "No"));
+		}
+		if (phSource != null && phConfig.isEnabled()) {
+			log.info("Registering PornHub source...");
+			manager.registerSourceManager(phSource);
+			registeredDetails.put("PornHub", "✅ Registered\n🔗 Supports: view_video.php, /embed/");
 		}
 
 		// Log source registration to webhook
